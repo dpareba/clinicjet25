@@ -36,7 +36,8 @@
 	                  <td>{{$patient->phoneprimary}}</td>
 	                  <td>{{$patient->phonealternate}}</td>
 	                  <td>{{$patient->email}}</td>
-	                  <td>{{$patient->patientcode}}</td>
+	                  {{-- <td>{{$patient->patientcode}}</td> --}}
+                    <td>{{$patient->patcode}}</td>
 	                   <td>{{date('M j, Y',strtotime($patient->created_at))}}</td>
                 	</tr>
                 @endforeach

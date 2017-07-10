@@ -64,7 +64,8 @@ View/Edit Patients Details
         <ul class="nav nav-stacked">
           <li><a href="#"><b>Patient Details</b><span class="pull-right badge bg-default"></span></a></li>
 
-          <li><a href="#">Patient Code <span class="pull-right badge bg-default">{{$patient->patientcode}}</span></a></li>
+          {{-- <li><a href="#">Patient Code <span class="pull-right badge bg-default">{{$patient->patientcode}}</span></a></li> --}}
+          <li><a href="#">Patient Code <span class="pull-right badge bg-default">{{$patient->patcode}}</span></a></li>
           @if ($patient->isapproxage)
           <li><a href="#">Approximate Patient Age<span class="pull-right badge bg-default">{{$patient->approxage}} Years</span></a></li>
           @else

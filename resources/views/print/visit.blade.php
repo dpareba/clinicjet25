@@ -41,7 +41,8 @@
 	</style>
 	{{-- <div class="absolute">Date: {{$visit->created_at->toDateString()}}</div> --}}
 	<div class="absolute">Date: {{$visit->created_at->format('d/m/Y')}}</div>
-	<div>Patient Id: <b>{{$visit->patient->patientcode}}</b></div>
+	{{-- <div>Patient Id: <b>{{$visit->patient->patientcode}}</b></div> --}}
+	<div>Patient Id: <b>{{$visit->patient->patcode}}</b></div>
 	<div class="absolute"><b>{{$visit->patient->gender}}</b> 
 		@if ($visit->patient->isapproxage)
 			Age (Approx): {{$visit->patient->approxage}} Years

@@ -195,12 +195,20 @@ class PatientController extends Controller
         $patient->bloodgroup = $request->bloodgroup;
         $maxpatid = Patient::orderBy('id','desc')->first();
         //dd($maxpatid);
+        $maxpatid = Patient::orderBy('patientcode','desc')->first();
+        //dd($maxpatid);
         //$patient->patientcode = rand(1000,9999);
         if ($maxpatid == null) {
             $patient->patientcode = 1000;
         }else{
-             $patient->patientcode = 1000 + $maxpatid->id;
+             $patient->patientcode = $maxpatid->patientcode + 1;
         }
+        
+
+        $maxpatcode = Patient::orderBy('id','desc')->first();
+        $patcode = 'CLI' . ($maxpatcode->id + 1);
+        //dd($patcode);
+        $patient->patcode = $patcode;
        
         $patient->idproof = $request->idproof;
         $patient->created_by = Auth::user()->id;

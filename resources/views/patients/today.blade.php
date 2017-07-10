@@ -53,7 +53,8 @@
                     <td>{{$slot->patient->phoneprimary}}</td>
                     <td>{{$slot->patient->phonealternate}}</td>
                     <td>{{$slot->patient->email}}</td>
-                    <td>{{$slot->patient->patientcode}}</td>
+                   {{--  <td>{{$slot->patient->patientcode}}</td> --}}
+                    <td>{{$slot->patient->patcode}}</td>
                      <td>{{date('M j, Y',strtotime($slot->patient->created_at))}}</td>
                    {{--  <td><span class="label label-primary">{{$slot->slotstatus->slotstatus}}</span></td> --}}
                   </tr>

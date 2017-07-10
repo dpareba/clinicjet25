@@ -56,7 +56,8 @@ View/Search Patients with Token Numbers
             <td><span class="label label-success">{{$s->token}}</span></td>
             <td>{{$s->patient->name}} {{$s->patient->midname}} {{$s->patient->surname}}</td>
             <td>{{$s->patient->phoneprimary}}</td>
-            <td>{{$s->patient->patientcode}}</td>
+            {{-- <td>{{$s->patient->patientcode}}</td> --}}
+            <td>{{$s->patient->patcode}}</td>
             {{-- <td><span class="label label-primary">{{$s->slotstatus->slotstatus}}</span></td> --}}
             </tr>
 						<?php $count+=1; ?>
