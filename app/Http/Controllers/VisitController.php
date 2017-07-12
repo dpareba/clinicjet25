@@ -215,7 +215,8 @@ class VisitController extends Controller
         // dd($id);
          $visit = Visit::findOrFail($id);
          $pathologies = Visit::findOrFail($id)->pathologies->all();
-         return response()->json(['visit'=>$visit,'pathology'=>$pathologies]);
+         $prescriprepeat = Visit::findOrFail($id)->prescriptions->all();
+         return response()->json(['visit'=>$visit,'pathology'=>$pathologies,'prescriprepeat'=>$prescriprepeat]);
          //return response()->json($pathologies);
     }
 

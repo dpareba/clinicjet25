@@ -89,7 +89,12 @@
 		<tbody>
 			@foreach ($visit->prescriptions as $p)
 			<tr>
-				<td><b>{{$p->medicinename}}</b><br><small><i>({{$p->medicinecomposition}})</i></small></td>
+				<td><b>{{$p->medicinename}}</b><br>
+				@if ($p->medicinecomposition!='')
+					<small><i>({{$p->medicinecomposition}})</i></small>
+				@endif
+				
+				</td>
 				<td>{{$p->doseregime}}</td>
 				<td>{{$p->dosetimings}}</td>
 				<td>{{$p->doseduration}}</td>

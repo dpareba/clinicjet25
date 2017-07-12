@@ -817,7 +817,12 @@ Add Consultation for Patient Visit
 															</tr>
 															@foreach ($visit->prescriptions as $p)
 															<tr>
-																<td><b>{{$p->medicinename}}</b><br><small><i>({{$p->medicinecomposition}})</i></small></td>
+																<td><b>{{$p->medicinename}}</b><br>
+																@if ($p->medicinecomposition!='')
+																	<small><i>({{$p->medicinecomposition}})</i></small>
+																@endif
+																
+																</td>
 																<td>{{$p->doseregime}}</td>
 																<td>{{$p->dosetimings}}</td>
 																<td>{{$p->doseduration}}</td>
@@ -1325,8 +1330,20 @@ Add Consultation for Patient Visit
 											console.log(options);
 											$('#pathology').append(options);
 											//$('pathology').val('101','Lipid Profile').trigger('change');
+											console.log(response['prescriprepeat'].length);
 
-										 	
+											prescripopt = "";
+											meddisplayname = "";
+
+											for (var i = 0; i < response['prescriprepeat'].length; i++) {
+												if (response['prescriprepeat'][i]['medicinecomposition']!="") {
+													meddisplayname = response['prescriprepeat'][i]['medicinename'] + ' (' + response['prescriprepeat'][i]['medicinecomposition'] + ')'
+												}else{
+													meddisplayname = response['prescriprepeat'][i]['medicinename']
+												}
+											prescripopt +='<li class="plist"><input type="hidden" name="medid[]" value="'+ response['prescriprepeat'][i]['medicine_id'] +'"><input type="hidden" name="mednameonly[]" value="'+ response['prescriprepeat'][i]['medicinename'] +'"><input type="hidden" name="medcomp[]" value="'+ response['prescriprepeat'][i]['medicinecomposition'] +'"><small class="label label-danger"><i class="fa fa-heartbeat"></i> Brand Name</small><span class="text">'+ meddisplayname +'</span><div class="pull-right"><a class="rem" style="color: crimson;"><i class="fa fa-trash"></i></a></div><br><input type="hidden" name="doseduration[]" value="'+ response['prescriprepeat'][i]['doseduration'] +'"><small class="label label-warning"><i class="fa fa-calendar-check-o"></i> Dose Duration</small><span class="text">'+ response['prescriprepeat'][i]['doseduration'] +'</span> |<input type="hidden" name="dosetimings[]" value="'+ response['prescriprepeat'][i]['dosetimings'] +'"><small class="label label-primary"><i class="fa fa-clock-o"></i> Dose Timings</small><span class="text">'+ response['prescriprepeat'][i]['dosetimings'] +'</span> |<input type="hidden" name="doseregime[]" value="'+ response['prescriprepeat'][i]['doseregime'] +'"><small class="label label-success"><i class="fa fa-asterisk "></i> Dose Regime</small><span class="text">'+ response['prescriprepeat'][i]['doseregime'] +'</span><br><input type="hidden" name="remarks[]" value="'+ response['prescriprepeat'][i]['remarks'] +'"><small class="label label-info"><i class="fa fa-comments "></i> Remarks</small><span class="text">'+ response['prescriprepeat'][i]['remarks'] +'</span></li>';
+											}
+										  	$('#scriplist').append(prescripopt);
 										},
 										error: function(data){
 											console.log('Failed');
