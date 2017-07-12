@@ -39,7 +39,8 @@ View/Search for My Patients
                       <td>{{$v->patient->phoneprimary}}</td>
                       <td>{{$v->patient->phonealternate}}</td>
                       <td>{{$v->patient->email}}</td>
-                      <td>{{$v->patient->patientcode}}</td>
+                      {{-- <td>{{$v->patient->patientcode}}</td> --}}
+                      <td>{{$v->patient->patcode}}</td>
                       <td>{{date('M j, Y',strtotime($v->patient->created_at))}}</td>
                     </tr>
                   @endif

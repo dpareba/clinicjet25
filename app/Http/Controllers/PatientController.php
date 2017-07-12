@@ -234,8 +234,14 @@ class PatientController extends Controller
         return view('visits.show')->withPatient($patient)->withUser($user);
     }
 
-    public function createconsult($id){
+    public function createconsult($id,$repeatvisitid){
         $patient = Patient::findOrFail($id);
+        if ($repeatvisitid!=0) {
+            $repeatid = $repeatvisitid;
+        }else{
+            $repeatid = 0;
+        }
+                
         $user = User::find($patient->created_by);
         //$pathologies = Pathology::all();
         $pathologies = Pathology::where('user_id','=','1')->orWhere('user_id','=',Auth::user()->id)->get();
@@ -326,8 +332,10 @@ class PatientController extends Controller
         ->dataset('BMI',$bmidata->pluck('bmi'))
         ->responsive(false);
 
-        return view('patients.createconsult')->withPatient($patient)->withUser($user)->withPathologies($pathologies)->withBpchart($bpchart)->withRandombschart($randombschart)->withPulsechart($pulsechart)->withRespratechart($respratechart)->withSpochart($spochart)->withWeightchart($weightchart)->withHeightchart($heightchart)->withBmichart($bmichart)->withTemplates($templates);
+        return view('patients.createconsult')->withPatient($patient)->withUser($user)->withPathologies($pathologies)->withBpchart($bpchart)->withRandombschart($randombschart)->withPulsechart($pulsechart)->withRespratechart($respratechart)->withSpochart($spochart)->withWeightchart($weightchart)->withHeightchart($heightchart)->withBmichart($bmichart)->withTemplates($templates)->withRepeatid($repeatid);
     }
+
+
     /**
      * Display the specified resource.
      *

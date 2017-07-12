@@ -16,6 +16,7 @@ use PDF;
 use Carbon\Carbon;
 use Illuminate\Support\Str; //Added
 use App\Slot;
+use Illuminate\Support\Facades\Input;
 
 class VisitController extends Controller
 {
@@ -207,6 +208,15 @@ class VisitController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function repeatvisit(Request $request){
+        $id = Input::get('rept');
+        // dd($id);
+         $visit = Visit::findOrFail($id);
+         $pathologies = Visit::findOrFail($id)->pathologies->all();
+         return response()->json(['visit'=>$visit,'pathology'=>$pathologies]);
+         //return response()->json($pathologies);
     }
 
     /**

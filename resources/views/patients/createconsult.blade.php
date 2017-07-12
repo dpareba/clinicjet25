@@ -10,7 +10,9 @@ Add Consultation for Patient Visit
 @stop
 @section('stylesheets')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-@stop
+
+ {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2.min.css"> --}}
+ @stop
 @section('content')
 <style>
 	#report-images{
@@ -89,40 +91,40 @@ Add Consultation for Patient Visit
 					<?php $countheader=1; ?>
 					@foreach ($patient->visits as $visit)
 					
-						<li><a href="#new{{$countheader}}" data-toggle="tab">{{$visit->created_at->timezone('Asia/Kolkata')->toDayDateTimeString()}}</a></li>
+					<li><a href="#new{{$countheader}}" data-toggle="tab">{{$visit->created_at->timezone('Asia/Kolkata')->toDayDateTimeString()}}</a></li>
 					
 
 					<?php $countheader+=1;?>
 					@endforeach
-					 
-					 <li class="pull-right"><a href="#healthcharts" data-toggle="tab">View Health Charts</a></li>
-						
+
+					<li class="pull-right"><a href="#healthcharts" data-toggle="tab">View Health Charts</a></li>
+
 					
 				</ul>
 				{{-- .nav nav-tabs bg-gray --}}
 				<div class="tab-content">
 					<div class="tab-pane active" id="new">
-							<div class="row">
-		<div class="col-md-12">
-			<div class="box box-solid box-primary">
-				<div class="box-header with-border">
-					<h3 class="box-title">New Consultation</h3>
-					<div class="box-tools pull-right">
-						<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-						</button>
-					</div>
-				</div>
-				<!-- /.box-header -->
-				<div class="box-body">
-					<form data-parsley-validate id="consult" action="{{route('visits.storelocal')}}" method="POST" data-toggle="validator">
-						{{csrf_field()}}
-						<input type="hidden" name="patient_id" value="{{$patient->id}}">
-
-
 						<div class="row">
-							<div class="col-md-6 col-xs-12">
-								<div class="form-group {{ $errors->has('chiefcomplaints')?'has-error':''}}">
-									<label class="control-label" for="chiefcomplaints">Chief Complaints</label>
+							<div class="col-md-12">
+								<div class="box box-solid box-primary">
+									<div class="box-header with-border">
+										<h3 class="box-title">New Consultation</h3>
+										<div class="box-tools pull-right">
+											<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+											</button>
+										</div>
+									</div>
+									<!-- /.box-header -->
+									<div class="box-body">
+										<form data-parsley-validate id="consult" action="{{route('visits.storelocal')}}" method="POST" data-toggle="validator">
+											{{csrf_field()}}
+											<input type="hidden" name="patient_id" value="{{$patient->id}}">
+											<input type="hidden" id="repeatid" value="{{$repeatid}}">
+
+											<div class="row">
+												<div class="col-md-6 col-xs-12">
+													<div class="form-group {{ $errors->has('chiefcomplaints')?'has-error':''}}">
+														<label class="control-label" for="chiefcomplaints">Chief Complaints</label>
 									{{-- <div class="pull-right box-tools">
 										
 										<a type="button" id="addcc" href="" style="color: gray;" data-toggle="modal" data-target="#ccModal">
@@ -130,7 +132,14 @@ Add Consultation for Patient Visit
 										</div> --}}
 										{{-- <div class="input-group"> --}}
 										{{-- <span class="input-group-addon"><i class="fa fa-pencil-square-o"></i></span> --}}
+										
+
+										
 										<textarea event.preventDefault(); style="resize:none;text-transform: uppercase;" autofocus=""  name="chiefcomplaints" id="chiefcomplaints" class="form-control" cols="30" rows="3"  placeholder="Chief Complaints" required="">{{old('chiefcomplaints')}}</textarea>
+										
+										
+										{{-- {{ dd(get_defined_vars()) }} --}}
+										
 										{{-- </div> --}}
 										<span class="help-block">{{$errors->first('chiefcomplaints')}}</span>
 									</div>
@@ -256,6 +265,8 @@ Add Consultation for Patient Visit
 												Add Investigation</a>
 											</div>
 											<select name="pathology[]" id="pathology" class="js-example-basic-multiple  form-control" multiple="multiple" >
+											
+										{{-- 	<input type="hidden" id="pathology" style="width:300px" class="form-control" /> --}}
 											{{-- @foreach ($pathologies as $pathology)
 											<option value="{{$pathology->id}}">{{$pathology->name}}</option>
 											@endforeach --}}
@@ -289,7 +300,7 @@ Add Consultation for Patient Visit
 							</div>
 							<hr>
 							@endif
- --}}
+							--}}
 							
 							<div class="row">
 								<div class="col-md-8 col-xs-12 ">
@@ -433,7 +444,7 @@ Add Consultation for Patient Visit
 									</div>
 								</div>
 							</div>
-							 --}}
+							--}}
 							
 
 						{{-- 	<div class="row">
@@ -744,208 +755,217 @@ Add Consultation for Patient Visit
 					</div>
 				</div>
 				{{-- .row --}}
-					</div>
-					<?php $countbody=1; ?>
-					@foreach ($patient->visits as $visit)
-					<div class="tab-pane" id="new{{$countbody}}">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="box box-solid box-primary">
-									<div class="box-header with-border">
-										<h4 class="box-title">
-											{{$visit->created_at->timezone('Asia/Kolkata')->toDayDateTimeString()}}
-										</h4>
-									</div>
-									<div class="box-body">
-										<span class="badge bg-gray pull-right">Consultant: DR. {{$visit->user->name}}</span>
-										<dl>
-													<dt>Chief Complaints</dt>
-													<dd>{{$visit->chiefcomplaints}}</dd>
-													<dt>Examination Findings</dt>
-													<dd>{{$visit->examinationfindings}}</dd>
-													<dt>History</dt>
-													<dd>{{$visit->patienthistory}}</dd>
-													<dt>Diagnosis</dt>
-													<dd>{{$visit->diagnosis}}</dd>
-													<dt>Advise</dt>
-													<dd>{{$visit->advise}}</dd>
-													<dt>Follow Up Date</dt>
-													@if ($visit->isSOS)
-													<dd>On SOS or With Reports</dd>
-													@else
-													{{-- <dd>{{$visit->nextvisit}}</dd> --}}
-													<dd>{{$visit->nextvisit->format('d/m/Y')}}</dd>
-													{{-- <dd>{{Carbon::createFromFormat('d/m/Y',$visit->nextvisit)}}</dd> --}}
-													@endif
-												</dl>
-
-												@if (count($visit->prescriptions)>0)
-												<div class="col-md-12">
-													<div class="box">
-														<div class="box-header with-border">
-															<h3 class="box-title">Prescription</h3>
-														</div>
-														<!-- /.box-header -->
-														<div class="box-body">
-															<table class="table table-bordered text-center">
-																<tr>
-																	<th>Brand Name</th>
-																	<th>Regime</th>
-																	<th>Timing</th>
-																	<th>Duration</th>
-																	<th>Remarks</th>
-																</tr>
-																@foreach ($visit->prescriptions as $p)
-																<tr>
-																	<td><b>{{$p->medicinename}}</b><br><small><i>({{$p->medicinecomposition}})</i></small></td>
-																	<td>{{$p->doseregime}}</td>
-																	<td>{{$p->dosetimings}}</td>
-																	<td>{{$p->doseduration}}</td>
-																	<td><small><i>{{$p->remarks}}</i></small></td>
-																</tr>
-																@endforeach
-																
-															</table>
-														</div>
-														<!-- /.box-body -->
-														
-													</div>
-													<!-- /.box -->
-												</div>
-												@endif
-
-												@if ($visit->systolic != "" && $visit->diastolic !="")
-												<div>
-													<strong>BP </strong>{{$visit->systolic}}/{{$visit->diastolic}} mm Hg
-												</div>	
-												@endif
-
-												@if ($visit->randombs != "" )
-												<div>
-													<strong>Random Blood Sugar </strong>{{$visit->randombs}} mg/dl
-												</div>	
-												@endif
-
-												@if ($visit->pulse != "" )
-												<div>
-													<strong>Pulse </strong>{{$visit->pulse}} beats per minute
-												</div>	
-												@endif
-
-												@if ($visit->resprate != "" )
-												<div>
-													<strong>Respiratory Rate </strong>{{$visit->resprate}} breaths per minute
-												</div>	
-												@endif
-
-												@if ($visit->spo != "" )
-												<div>
-													<strong>SPO2 </strong>{{$visit->spo}} %
-												</div>	
-												@endif
-
-												@if ($visit->weight != "" )
-												<div>
-													<strong>Weight </strong>{{$visit->weight}} kgs
-												</div>	
-												@endif
-
-												@if ($visit->height != "" )
-												<div>
-													<strong>Height </strong>{{$visit->height}} cms
-												</div>	
-												@endif
-
-												@if ($visit->bmi != "" )
-												<div>
-													<strong>BMI </strong>{{$visit->bmi}}
-												</div>	
-												@endif
-
-												@if (($visit->systolic != "" && $visit->diastolic !="") || $visit->randombs != "" || $visit->pulse != "" || $visit->resprate != "" || $visit->spo != "" || $visit->weight != "" || $visit->height != "" || $visit->bmi != "")
-												<br>
-												@endif
-
-												<dl>
-													<dt>Recommended Clinical Followup</dt>
-													<ul>
-														@foreach ($visit->pathologies as $pathology)
-														<li>{{$pathology->name}}</li>
-														@endforeach
-													</ul>
-												</dl>
-
-												@if (Auth::user()->id == $visit->user_id)
-												<div class="box-footer clearfix">
-													<a href="{{route('print.visits',$visit->id)}}" class="btn btn btn-success  pull-right"  target="_blank">Print</a>
-												</div>{{-- expr --}}
-												@endif
-									</div>{{-- .box-body --}}
-									
-								</div>{{-- .box --}}
+			</div>
+			<?php $countbody=1; ?>
+			@foreach ($patient->visits as $visit)
+			<div class="tab-pane" id="new{{$countbody}}">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="box box-solid box-primary">
+							<div class="box-header with-border">
+								<h4 class="box-title">
+									{{$visit->created_at->timezone('Asia/Kolkata')->toDayDateTimeString()}}
+								</h4>
 							</div>
+							<div class="box-body">
+								<div class="row">
+									<div class="col-md-12">
+
+													{{-- <input type="hidden" name="visitid" value="{{$visit->id}}">
+													<button type="submit" class="btn btn-xs btn-warning">Repeat All</button> --}}
+
+													<a href="{{URL::route('patients.createconsult',['id'=>$patient->id,'repeatvisitid'=>$visit->id])}}"  class="btn btn-xs btn-warning">Repeat All</a> <span class="text-red"><i>Using this feature would refresh and reset all values added in the new consultation</i></span>
+												</div>
+											</div>
+											<span class="badge bg-gray pull-right">Consultant: DR. {{$visit->user->name}}</span>
+											<dl>
+												<dt>Chief Complaints</dt>
+												<dd >{{$visit->chiefcomplaints}}</dd>
+												<dt>Examination Findings</dt>
+												<dd>{{$visit->examinationfindings}}</dd>
+												<dt>History</dt>
+												<dd>{{$visit->patienthistory}}</dd>
+												<dt>Diagnosis</dt>
+												<dd>{{$visit->diagnosis}}</dd>
+												<dt>Advise</dt>
+												<dd>{{$visit->advise}}</dd>
+												<dt>Follow Up Date</dt>
+												@if ($visit->isSOS)
+												<dd>On SOS or With Reports</dd>
+												@else
+												{{-- <dd>{{$visit->nextvisit}}</dd> --}}
+												<dd>{{$visit->nextvisit->format('d/m/Y')}}</dd>
+												{{-- <dd>{{Carbon::createFromFormat('d/m/Y',$visit->nextvisit)}}</dd> --}}
+												@endif
+											</dl>
+
+											@if (count($visit->prescriptions)>0)
+											<div class="col-md-12">
+												<div class="box">
+													<div class="box-header with-border">
+														<h3 class="box-title">Prescription</h3>
+													</div>
+													<!-- /.box-header -->
+													<div class="box-body">
+														<table class="table table-bordered text-center">
+															<tr>
+																<th>Brand Name</th>
+																<th>Regime</th>
+																<th>Timing</th>
+																<th>Duration</th>
+																<th>Remarks</th>
+															</tr>
+															@foreach ($visit->prescriptions as $p)
+															<tr>
+																<td><b>{{$p->medicinename}}</b><br><small><i>({{$p->medicinecomposition}})</i></small></td>
+																<td>{{$p->doseregime}}</td>
+																<td>{{$p->dosetimings}}</td>
+																<td>{{$p->doseduration}}</td>
+																<td><small><i>{{$p->remarks}}</i></small></td>
+															</tr>
+															@endforeach
+
+														</table>
+													</div>
+													<!-- /.box-body -->
+
+												</div>
+												<!-- /.box -->
+											</div>
+											@endif
+
+											@if ($visit->systolic != "" && $visit->diastolic !="")
+											<div>
+												<strong>BP </strong>{{$visit->systolic}}/{{$visit->diastolic}} mm Hg
+											</div>	
+											@endif
+
+											@if ($visit->randombs != "" )
+											<div>
+												<strong>Random Blood Sugar </strong>{{$visit->randombs}} mg/dl
+											</div>	
+											@endif
+
+											@if ($visit->pulse != "" )
+											<div>
+												<strong>Pulse </strong>{{$visit->pulse}} beats per minute
+											</div>	
+											@endif
+
+											@if ($visit->resprate != "" )
+											<div>
+												<strong>Respiratory Rate </strong>{{$visit->resprate}} breaths per minute
+											</div>	
+											@endif
+
+											@if ($visit->spo != "" )
+											<div>
+												<strong>SPO2 </strong>{{$visit->spo}} %
+											</div>	
+											@endif
+
+											@if ($visit->weight != "" )
+											<div>
+												<strong>Weight </strong>{{$visit->weight}} kgs
+											</div>	
+											@endif
+
+											@if ($visit->height != "" )
+											<div>
+												<strong>Height </strong>{{$visit->height}} cms
+											</div>	
+											@endif
+
+											@if ($visit->bmi != "" )
+											<div>
+												<strong>BMI </strong>{{$visit->bmi}}
+											</div>	
+											@endif
+
+											@if (($visit->systolic != "" && $visit->diastolic !="") || $visit->randombs != "" || $visit->pulse != "" || $visit->resprate != "" || $visit->spo != "" || $visit->weight != "" || $visit->height != "" || $visit->bmi != "")
+											<br>
+											@endif
+
+											<dl>
+												<dt>Recommended Clinical Followup</dt>
+												<ul>
+													@foreach ($visit->pathologies as $pathology)
+													<li>{{$pathology->name}}</li>
+													@endforeach
+												</ul>
+											</dl>
+
+											@if (Auth::user()->id == $visit->user_id)
+											<div class="box-footer clearfix">
+												<a href="{{route('print.visits',$visit->id)}}" class="btn btn btn-success  pull-right"  target="_blank">Print</a>
+											</div>{{-- expr --}}
+											@endif
+										</div>{{-- .box-body --}}
+
+									</div>{{-- .box --}}
+								</div>
+							</div>
+
+
+
+
 						</div>
-
-
-
-
-					</div>
-					<?php $countbody+=1;?>
-					@endforeach {{-- endforeachloop --}}
-					<div class="tab-pane" id="healthcharts">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="box box-solid box-primary">
-									<div class="box-header with-border">
-										<h4 class="box-title">
-											Health Charts
-										</h4>
-									</div>
-									<div class="box-body">
-										<div class="row">
-											<div class="col-md-12">
-												{!! $bpchart->render() !!}
-											</div>
+						<?php $countbody+=1;?>
+						@endforeach {{-- endforeachloop --}}
+						<div class="tab-pane" id="healthcharts">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="box box-solid box-primary">
+										<div class="box-header with-border">
+											<h4 class="box-title">
+												Health Charts
+											</h4>
 										</div>
-										<div class="row">
-											<div class="col-md-12">
-												{!! $randombschart->render() !!}
+										<div class="box-body">
+											<div class="row">
+												<div class="col-md-12">
+													{!! $bpchart->render() !!}
+												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-12">
-												{!! $pulsechart->render() !!}
+											<div class="row">
+												<div class="col-md-12">
+													{!! $randombschart->render() !!}
+												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-12">
-												{!! $respratechart->render() !!}
+											<div class="row">
+												<div class="col-md-12">
+													{!! $pulsechart->render() !!}
+												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-12">
-												{!! $spochart->render() !!}
+											<div class="row">
+												<div class="col-md-12">
+													{!! $respratechart->render() !!}
+												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-12">
-												{!! $weightchart->render() !!}
+											<div class="row">
+												<div class="col-md-12">
+													{!! $spochart->render() !!}
+												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-12">
-												{!! $heightchart->render() !!}
+											<div class="row">
+												<div class="col-md-12">
+													{!! $weightchart->render() !!}
+												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-12">
-												{!! $bmichart->render() !!}
+											<div class="row">
+												<div class="col-md-12">
+													{!! $heightchart->render() !!}
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12">
+													{!! $bmichart->render() !!}
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
 					{{-- 	<div class="row">
 
 								<div class="col-md-4 col-xs-12">
@@ -983,20 +1003,20 @@ Add Consultation for Patient Visit
 								</div>
 							</div>
 							<hr> --}}
+						</div>
 					</div>
 				</div>
+				{{-- .nav-tabs-custom --}}
+
 			</div>
-			{{-- .nav-tabs-custom --}}
-
+			{{-- .coldp --}}
 		</div>
-		{{-- .coldp --}}
-	</div>
-	{{-- .rowdp --}}
+		{{-- .rowdp --}}
 
 
 
 
-				{{-- .row --}}
+		{{-- .row --}}
 				{{-- @else
 				<div class="row">
 					<div class="col-md-12 ">
@@ -1231,6 +1251,7 @@ Add Consultation for Patient Visit
 
 								@section('scripts')
 								<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+								{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2.min.js"></script> --}}
 								{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js"></script> --}}
 								<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 								<script>
@@ -1243,6 +1264,84 @@ Add Consultation for Patient Visit
 								// $(".js-example-basic-multiple").select2({
 								// 	placeholder: "Recommended Clinical follow up"
 								// });
+								// 
+								
+								//$('#chiefcomplaints').val('Dilip');
+								var repeatval = $('#repeatid').val();
+								//var repeatval = 'Dilip';
+								if(repeatval == 0){
+									console.log('no repeat');
+								}
+								else{
+									console.log('repeat');
+									console.log(repeatval);
+									// var ccplaceholder = "#cc".concat(repeatval);
+									// var ccval = $(ccplaceholder).text();
+									// $('#chiefcomplaints').val(ccval);
+									//e.preventDefault();
+									$.ajax({
+										type: "GET",
+										url : "/repeatvisit",
+										data : {rept : repeatval},
+
+										success: function(response){
+											console.log('Passed');
+											console.log(JSON.stringify(response));
+											console.log(response['chiefcomplaints']);
+											$('#chiefcomplaints').val(response['visit']['chiefcomplaints']);
+											$('#patienthistory').val(response['visit']['patienthistory']);
+											$('#examinationfindings').val(response['visit']['examinationfindings']);
+											$('#diagnosis').val(response['visit']['diagnosis']);
+											$('#advise').val(response['visit']['advise']);
+											$('#systolic').val(response['visit']['systolic']);
+											$('#diastolic').val(response['visit']['diastolic']);
+											$('#randombs').val(response['visit']['randombs']);
+											$('#pulse').val(response['visit']['pulse']);
+											$('#resprate').val(response['visit']['resprate']);
+											$('#spo').val(response['visit']['spo']);
+											$('#height').val(response['visit']['height']);
+											$('#weight').val(response['visit']['weight']);
+											$('#bmi').val(response['visit']['bmi']);
+											// $('#examinationfindings').val("");
+											// $('#examinationfindings').val(response[0]['template']);
+											if (response['visit']['isSOS']==0) {
+												$("#followuptype").val("Days").change();
+											   $dateval = moment(response['visit']['nextvisit']).format('DD-MM-YYYY');
+												//console.log("Dilip ");
+												$('#nextvisit').val($dateval);
+											}else{
+												$("#followuptype").val("SOS").change();
+
+												
+											}
+											console.log(response['pathology'].length);
+											
+											options = "";
+											for (var i = 0; i < response['pathology'].length; i++) {
+
+												options += "<option selected value='" + response['pathology'][i]['id'] + "'>" + response['pathology'][i]['name'] + "</option>";
+
+											}
+											console.log(options);
+											$('#pathology').append(options);
+											//$('pathology').val('101','Lipid Profile').trigger('change');
+
+										 	
+										},
+										error: function(data){
+											console.log('Failed');
+										}
+
+
+
+									});//end
+								}
+								
+								//console.log(ccplaceholder);
+								//var ccval = $('#cc'.repeatval).val();
+								//console.log(ccval);
+								//console.log(repeatval);
+
 								$(".testselect").select2({
 									placeholder: "Testing Select2"
 								});
@@ -1598,6 +1697,7 @@ $("#followuptype").change(function(){
 });
 
 $("#pathology").select2({
+
 	ajax: {
 		multiple:true,
 		url: '{{URL::route('pathologies.index')}}',
@@ -1612,12 +1712,18 @@ $("#pathology").select2({
 		processResults: function(data, params){
 			return{
 				results:data,
+
 			};
 		},
 		cache:true,
 	},
-	minimumInputLength:3,
+	minimumInputLength:3
+	// ,initSelection:function(element,callback){
+	// 	callback({id:101,text:'Lipid Profile'});
+	// }
+	
 });
+
 
 $(".medname").select2({
 	
