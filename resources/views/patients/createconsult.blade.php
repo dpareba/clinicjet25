@@ -776,7 +776,9 @@ Add Consultation for Patient Visit
 
 													<a href="{{URL::route('patients.createconsult',['id'=>$patient->id,'repeatvisitid'=>$visit->id])}}"  class="btn btn-xs btn-warning">Repeat All</a> <span class="text-red"><i>Using this feature would refresh and reset all values added in the new consultation</i></span>
 												</div>
+
 											</div>
+											<br>
 											<span class="badge bg-gray pull-right">Consultant: DR. {{$visit->user->name}}</span>
 											<dl>
 												<dt>Chief Complaints</dt>

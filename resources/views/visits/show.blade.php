@@ -28,7 +28,7 @@ Patient Visit Details
 				</div>
 				<!-- /.widget-user-image -->
 				<h3 class="widget-user-username">{{$patient->name}} {{$patient->midname}} {{$patient->surname}}</h3>
-				<h5 class="widget-user-desc"><span class="badge bg-gray">Created On: {{$patient->created_at->format('D, d F Y')}}</span> | <span class="badge bg-gray">Created By: DR. {{$user->name}}</span> | 
+				<h5 class="widget-user-desc"><span class="badge bg-gray">Created On: {{$patient->created_at->format('D, d F Y')}}</span> {{-- | <span class="badge bg-gray">Created By: DR. {{$user->name}}</span> --}} | 
 					@if ($patient->isapproxage)
 					<span class="badge bg-gray">Approximate Patient Age: {{$patient->approxage}} Years</span>
 					@else
