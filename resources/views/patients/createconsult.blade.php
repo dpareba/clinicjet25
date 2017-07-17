@@ -777,8 +777,13 @@ Add Consultation for Patient Visit
 													<a href="{{URL::route('patients.createconsult',['id'=>$patient->id,'repeatvisitid'=>$visit->id])}}"  class="btn btn-xs btn-warning">Repeat All</a> <span class="text-red"><i>Using this feature would refresh and reset all values added in the new consultation</i></span>
 												</div>
 
-											</div>
+											</div>{{-- .row --}}
 											<br>
+											@if (Auth::user()->id == $visit->user_id)
+												@if ($visit->created_at->diffInHours(Carbon::now()) <= 36)
+													<a href="#" class="btn btn-success btn-xs">Edit Consultation</a>
+												@endif
+											@endif
 											<span class="badge bg-gray pull-right">Consultant: DR. {{$visit->user->name}}</span>
 											<dl>
 												<dt>Chief Complaints</dt>
@@ -1494,7 +1499,10 @@ Add Consultation for Patient Visit
 						$('#dosedurationdays').append($('<option></option>').val('6').html('6'));
 					}else if(doseduropt == "months"){
 						$("#dosedurationdays").empty();
+						
+
 						$('.dosedurationdays').show();
+
 						$("#dosedurationdayslabel").text("Months");
 						$('#dosedurationdays').append($('<option></option>').val('1').html('1'));
 						$('#dosedurationdays').append($('<option></option>').val('2').html('2'));
@@ -1508,6 +1516,9 @@ Add Consultation for Patient Visit
 						$('#dosedurationdays').append($('<option></option>').val('10').html('10'));
 						$('#dosedurationdays').append($('<option></option>').val('11').html('11'));
 						$('#dosedurationdays').append($('<option></option>').val('12').html('12'));
+
+
+
 					}else if(doseduropt == "years"){
 						$("#dosedurationdays").empty();
 						$('.dosedurationdays').show();
@@ -1522,7 +1533,11 @@ Add Consultation for Patient Visit
 					}else if(doseduropt == "lifetime"){
 						$('.dosedurationdays').hide();
 					}
-				});
+					
+				
+				});//ending
+//$('#dosedurationdays').focus().simulate('mousedown');
+$('#dosedurationdays').simulate('mousedown');				
 });
 
 $('#dosetime').change(function(){
@@ -1778,16 +1793,16 @@ processResults: function (data, params) {
 minimumInputLength: 3,
   //templateResult: formatRepo, // omitted for brevity, see the source of this page
   //templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+}).on('select2:select',function(e){
+	//$("#doseduration").val("days").change();
+	$('#doseduration').focus().simulate('mousedown');
 });
 
-// $( function() {
+// $("#doseduration").on('change',function(){
+// 	$("#dosedurationdays").focus().simulate('mousedown');
+// });
 
-// 	$( "#chiefcomplaints" ).autocomplete({
 
-//       source: '{{route('templates.showcc')}}',
-//       minLength: 3
-//   });
-// } );
 
 $(function(){
 	$("#examinationfindings").autocomplete({

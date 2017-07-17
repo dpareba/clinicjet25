@@ -109,7 +109,7 @@ class PrintController extends Controller
             'margin_bottom' => $clinic->margin_bottom*10,
             'margin_left'=> $clinic->margin_left*10,
             'margin_right'=> $clinic->margin_right*10,
-            'margin_footer'=> 5,
+           
             'orientation'=> 'P'
             ]);
         return $pdf->stream('document.pdf');

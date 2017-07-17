@@ -194,6 +194,7 @@ class VisitController extends Controller
     Session::flash('message','Success!!');
     Session::flash('text','New Consultation Created!!');
     Session::flash('type','success');
+    //Session::flash('timer',1000);
 
     return redirect()->route('patients.show',$request->patient_id);
 }
@@ -229,8 +230,8 @@ class VisitController extends Controller
     public function edit($id)
     {
         $visit = Visit::findOrFail($id);
-
-        return view('visits.edit')->withVisit($visit);
+         $pathologies = Visit::findOrFail($id)->pathologies->all();
+        return view('visits.edit')->withVisit($visit)->withPathologies($pathologies);
     }
 
     /**
